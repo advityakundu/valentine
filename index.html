@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Valentine Page from my 🫀</title>
+  <style>
+    :root{
+      --bg1:#ffeff6;
+      --bg2:#fff7e6;
+      --card:#ffffffcc;
+      --text:#1b1b1b;
+      --muted:#5a5a5a;
+      --accent:#ff3b7a;
+      --accent2:#ffb703;
+      --shadow: 0 18px 40px rgba(0,0,0,.12);
+      --radius: 22px;
+      --maxw: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 60%),
+                  radial-gradient(1200px 800px at 80% 30%, var(--bg1), transparent 60%),
+                  linear-gradient(135deg, #ffffff, #fff3fb);
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px 16px 40px;
+    }
+
+    .app{
+      width:100%;
+      max-width: var(--maxw);
+      background: rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.55);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:700;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,59,122,.10);
+      border: 1px solid rgba(255,59,122,.18);
+    }
+    .small{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.05);
+      border: 1px solid rgba(0,0,0,.06);
+      color: rgba(0,0,0,.7);
+      user-select:none;
+      -webkit-user-select:none;
+    }
+
+    .screen{
+      padding: 26px 18px 28px;
+      display:none;
+      min-height: 62vh;
+    }
+    .screen.active{ display:block; }
+
+    h1,h2{
+      margin: 0 0 12px;
+      letter-spacing: -.02em;
+    }
+    h1{ font-size: clamp(28px, 4.6vw, 46px); }
+    h2{ font-size: clamp(22px, 3.6vw, 34px); }
+
+    .sub{
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .center{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap: 14px;
+      padding-top: 24px;
+    }
+
+    .btnRow{
+      margin-top: 12px;
+      position: relative;
+      height: 120px;
+      width: min(520px, 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 16px;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+    }
+
+    button{
+      border:0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 800;
+      font-size: 16px;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      touch-action: manipulation;
+    }
+    button:active{ transform: scale(.98); }
+    .yes{
+      background: linear-gradient(135deg, var(--accent), #ff6aa2);
+      color:white;
+    }
+    .yes:hover{ box-shadow: 0 14px 28px rgba(255,59,122,.25); }
+
+    .no{
+      background: linear-gradient(135deg, #2b2d42, #5c5f7b);
+      color:white;
+      position:absolute;
+      left: 58%;
+      top: 28px;
+      will-change: left, top, transform;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: rgba(0,0,0,.55);
+      font-weight: 700;
+    }
+
+    /* Choice cards */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (min-width: 740px){
+      .grid{ grid-template-columns: 1fr 1fr; gap: 16px; }
+      .screen{ padding: 30px 26px 34px; }
+    }
+
+    .card{
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      overflow:hidden;
+      cursor:pointer;
+      position:relative;
+      transform: translateZ(0);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+      outline: none;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,.14); }
+
+    .card img{
+      width:100%;
+      height: 220px;
+      object-fit: cover;
+      display:block;
+      background: #f2f2f2;
+    }
+    @media (min-width: 740px){
+      .card img{ height: 260px; }
+    }
+
+    .cardBody{
+      padding: 14px 14px 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .cardTitle{
+      font-weight: 900;
+      font-size: 18px;
+      margin:0;
+    }
+    .cardMeta{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .selectMark{
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.08);
+      font-size: 18px;
+      flex: 0 0 auto;
+    }
+
+    .card.selected{
+      border-color: rgba(255,59,122,.55);
+      background: rgba(255,59,122,.08);
+      box-shadow: 0 20px 44px rgba(255,59,122,.18);
+    }
+    .card.selected .selectMark{
+      background: rgba(255,59,122,.18);
+      border-color: rgba(255,59,122,.32);
+    }
+
+    /* Countdown */
+    .countWrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      text-align:center;
+      padding: 14px 0 6px;
+    }
+    .countBig{
+      font-size: clamp(56px, 10vw, 92px);
+      font-weight: 1000;
+      letter-spacing: -.04em;
+      margin: 0;
+      line-height: 1;
+    }
+    .countText{
+      margin: 0;
+      font-weight: 750;
+      color: var(--muted);
+    }
+
+    .fallback{
+      margin-top: 16px;
+      width: min(720px, 100%);
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      display:none;
+      text-align:left;
+    }
+    .fallback.show{ display:block; }
+    .fallback h3{
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .copyBox{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.03);
+      font-size: 14px;
+      font-weight: 650;
+      color: rgba(0,0,0,.85);
+    }
+    .copyBtn{
+      margin-top: 10px;
+      width:100%;
+      background: linear-gradient(135deg, var(--accent2), #ffd166);
+      color: #1b1b1b;
+      font-weight: 950;
+    }
+
+    .footerNote{
+      padding: 14px 16px 18px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.55);
+      color: rgba(0,0,0,.6);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* Little floating hearts */
+    .heart{
+      position:absolute;
+      font-size: 16px;
+      opacity: .55;
+      pointer-events:none;
+      animation: floatUp 4.8s linear infinite;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,.10));
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(1); opacity:.0; }
+      10%{ opacity:.55; }
+      100%{ transform: translateY(-520px) scale(1.15); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="app" id="app">
+      <div class="topbar">
+        <div class="badge">💘 Valentine Vibes</div>
+        <div class="pill" id="audioPill">Audio: off</div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section class="screen active" id="screen1">
+        <div class="center">
+          <h1>Will you be my Valentine? 💘</h1>
+          <p class="sub">One simple question. Two buttons. One of them is… dramatic.</p>
+
+          <div class="btnRow" id="btnZone" aria-label="Valentine buttons area">
+            <button class="yes" id="yesBtn" type="button">Yes 🥰</button>
+            <button class="no" id="noBtn" type="button" aria-label="No button (runs away)">No 😤</button>
+          </div>
+
+          <div class="hint">Tip: try to click “No” 😈</div>
+        </div>
+      </section>
+
+      <!-- STEP 3 (shown after YES) -->
+      <section class="screen" id="screenChoice">
+        <h2>Pick our Valentine plan 😌</h2>
+        <p class="sub">Choose one. The countdown starts only after you pick.</p>
+
+        <div class="grid" role="list">
+          <div class="card" id="cardNetflix" role="listitem" tabindex="0" aria-label="Netflix & Chill option">
+            <img src="images/netflix.png" alt="Netflix & Chill" />
+            <div class="cardBody">
+              <div>
+                <p class="cardTitle">Netflix & Chill</p>
+                <p class="cardMeta">Cozy vibes. Snacks. Blanket. Zero stress.</p>
+              </div>
+              <div class="selectMark" aria-hidden="true" id="markNetflix">○</div>
+            </div>
+          </div>
+
+          <div class="card" id="cardCineplex" role="listitem" tabindex="0" aria-label="Cineplex Movie Night option">
+            <img src="images/cineplex.png" alt="Cineplex Movie Night" />
+            <div class="cardBody">
+              <div>
+                <p class="cardTitle">Cineplex Movie Night</p>
+                <p class="cardMeta">Big screen. Popcorn. Dive into the Movie.</p>
+              </div>
+              <div class="selectMark" aria-hidden="true" id="markCineplex">○</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="countWrap" style="margin-top:18px;">
+          <p class="countText" id="choiceStatus">Make your pick 👆</p>
+        </div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="screen" id="screenCountdown">
+        <div class="countWrap">
+          <h2 id="openText">Opening iMessage in <span id="countInline">3</span>…</h2>
+          <p class="countBig" id="countBig">3</p>
+          <p class="countText" id="finalMsg">Get ready 😌</p>
+
+          <div class="fallback" id="fallbackBox">
+            <h3>If iMessage didn’t open, copy + paste this:</h3>
+            <textarea class="copyBox" id="copyMessage" rows="3" readonly></textarea>
+            <button class="copyBtn" id="copyBtn" type="button">Copy message</button>
+            <p class="small" style="margin:10px 0 0;">
+              On iPhone: open Messages → New Message → paste → send 💘
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="footerNote">
+        Made with 🫀. (Tip: Safari may require you to unmute / allow sound and the audio starts only after tapping Yes.)
+      </div>
+    </div>
+  </div>
+
+  <!-- Local audio file (provided by you) -->
+  <audio id="song" preload="auto" src="song.mp3"></audio>
+
+  <script>
+    /***********************
+     * CONFIG CONSTANTS
+     ***********************/
+    const COUNTDOWN_SECONDS = 3;          // 3…2…1…
+    const IMESSAGE_PHONE = "";            // optional, e.g. "+16475551234" or leave "" for no number
+    const MESSAGE_NETFLIX = "Yes 😌 Netflix & chill sounds perfect ❤️";
+    const MESSAGE_CINEPLEX = "Yes 🎬 I’d love a Cineplex movie night ❤️";
+    const USE_SONG = true;                // true/false
+
+    /***********************
+     * ELEMENTS
+     ***********************/
+    const app = document.getElementById("app");
+
+    const screen1 = document.getElementById("screen1");
+    const screenChoice = document.getElementById("screenChoice");
+    const screenCountdown = document.getElementById("screenCountdown");
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const btnZone = document.getElementById("btnZone");
+
+    const cardNetflix = document.getElementById("cardNetflix");
+    const cardCineplex = document.getElementById("cardCineplex");
+    const markNetflix = document.getElementById("markNetflix");
+    const markCineplex = document.getElementById("markCineplex");
+    const choiceStatus = document.getElementById("choiceStatus");
+
+    const song = document.getElementById("song");
+    const audioPill = document.getElementById("audioPill");
+
+    const countInline = document.getElementById("countInline");
+    const countBig = document.getElementById("countBig");
+    const finalMsg = document.getElementById("finalMsg");
+
+    const fallbackBox = document.getElementById("fallbackBox");
+    const copyMessage = document.getElementById("copyMessage");
+    const copyBtn = document.getElementById("copyBtn");
+
+    /***********************
+     * STATE
+     ***********************/
+    let selected = null; // "netflix" | "cineplex"
+    let countdownTimer = null;
+    let countdownValue = COUNTDOWN_SECONDS;
+    let didAttemptSms = false;
+
+    /***********************
+     * HELPERS
+     ***********************/
+    function showScreen(which){
+      [screen1, screenChoice, screenCountdown].forEach(s => s.classList.remove("active"));
+      which.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function encodeSmsBody(text){
+      // sms: uses URL encoding; keep it simple and robust
+      return encodeURIComponent(text);
+    }
+
+    function buildSmsUrl(bodyText){
+      const phone = (IMESSAGE_PHONE || "").trim();
+      const body = encodeSmsBody(bodyText);
+
+      // iOS Messages scheme quirks:
+      // - sms:+1234567890&body=... works widely
+      // - If no number: sms:&body=... works (as requested)
+      if (phone.length > 0) return `sms:${phone}&body=${body}`;
+      return `sms:&body=${body}`;
+    }
+
+    async function tryPlaySong(){
+      if (!USE_SONG) {
+        audioPill.textContent = "Audio: off";
+        return;
+      }
+      try{
+        song.currentTime = 0;
+        song.loop = false; // you can set true if you want looping
+        await song.play(); // MUST be in direct user gesture for iPhone Safari
+        audioPill.textContent = "Audio: on";
+      }catch(e){
+        // If autoplay blocked or file missing, show as off but continue the flow.
+        audioPill.textContent = "Audio: blocked";
+      }
+    }
+
+    function selectOption(which){
+      selected = which;
+
+      // Visual selection
+      const isNetflix = which === "netflix";
+      cardNetflix.classList.toggle("selected", isNetflix);
+      cardCineplex.classList.toggle("selected", !isNetflix);
+      markNetflix.textContent = isNetflix ? "✓" : "○";
+      markCineplex.textContent = !isNetflix ? "✓" : "○";
+
+      choiceStatus.textContent = isNetflix
+        ? "Selected: Netflix & Chill ✅"
+        : "Selected: Cineplex Movie Night ✅";
+    }
+
+    function startCountdownAndOpen(){
+      if (!selected) return;
+
+      showScreen(screenCountdown);
+      fallbackBox.classList.remove("show");
+
+      const msg = selected === "netflix" ? MESSAGE_NETFLIX : MESSAGE_CINEPLEX;
+
+      countdownValue = COUNTDOWN_SECONDS;
+      countInline.textContent = String(countdownValue);
+      countBig.textContent = String(countdownValue);
+      finalMsg.textContent = selected === "netflix"
+        ? "Warming up the couch… 🍿"
+        : "Grabbing popcorn… 🍿";
+
+      // Start ticking
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        countdownValue -= 1;
+        if (countdownValue <= 0){
+          clearInterval(countdownTimer);
+          countdownTimer = null;
+
+          // Attempt to open iMessage
+          didAttemptSms = true;
+          copyMessage.value = msg;
+
+          const smsUrl = buildSmsUrl(msg);
+
+          // Try to navigate
+          window.location.href = smsUrl;
+
+          // Fallback: if still on page after a short delay, show copy box
+          // (We can’t reliably detect failure; this is a practical UX fallback.)
+          setTimeout(() => {
+            // If page didn't get hidden, assume it didn't open
+            if (document.visibilityState === "visible") {
+              fallbackBox.classList.add("show");
+            }
+          }, 1400);
+
+          return;
+        }
+
+        countInline.textContent = String(countdownValue);
+        countBig.textContent = String(countdownValue);
+      }, 1000);
+    }
+
+    /***********************
+     * STEP 1: NO BUTTON DODGE
+     ***********************/
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function moveNoButtonAway(fromX, fromY){
+      const zoneRect = btnZone.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // Choose a new random position inside the zone, but far-ish from pointer
+      const padding = 10;
+      const maxX = zoneRect.width - btnRect.width - padding;
+      const maxY = zoneRect.height - btnRect.height - padding;
+
+      // pointer coords relative to zone
+      const px = fromX - zoneRect.left;
+      const py = fromY - zoneRect.top;
+
+      // random candidate
+      let nx = Math.random() * maxX;
+      let ny = Math.random() * maxY;
+
+      // push away from pointer a bit
+      const dx = nx - px;
+      const dy = ny - py;
+      const dist = Math.max(1, Math.hypot(dx, dy));
+      const push = 70; // how aggressively it dodges
+      nx = nx + (dx / dist) * push;
+      ny = ny + (dy / dist) * push;
+
+      nx = clamp(nx, padding, maxX);
+      ny = clamp(ny, padding, maxY);
+
+      noBtn.style.left = nx + "px";
+      noBtn.style.top  = ny + "px";
+    }
+
+    // Desktop: if cursor gets close, move it
+    btnZone.addEventListener("mousemove", (e) => {
+      const b = noBtn.getBoundingClientRect();
+      const cx = b.left + b.width/2;
+      const cy = b.top + b.height/2;
+      const d = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+      if (d < 120) moveNoButtonAway(e.clientX, e.clientY);
+    });
+
+    // Mobile: on touch near the button area, move it
+    btnZone.addEventListener("touchstart", (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      moveNoButtonAway(t.clientX, t.clientY);
+    }, { passive: true });
+
+    // Prevent "No" click from doing anything (and make it extra slippery)
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      // teleport anyway
+      const rect = btnZone.getBoundingClientRect();
+      moveNoButtonAway(rect.left + rect.width/2, rect.top + rect.height/2);
+    });
+
+    /***********************
+     * STEP 2: YES -> start audio (user gesture) -> choice screen
+     ***********************/
+    yesBtn.addEventListener("click", async () => {
+      // Must start audio directly on user gesture for iPhone Safari
+      await tryPlaySong();
+
+      // Add a little heart confetti vibe
+      burstHearts();
+
+      // Transition to choice screen
+      showScreen(screenChoice);
+    });
+
+    /***********************
+     * STEP 3: Choice -> starts countdown
+     ***********************/
+    function handleChoice(which){
+      selectOption(which);
+
+      // Start countdown ONLY after selection
+      // Small delay to let selection highlight feel satisfying
+      setTimeout(() => startCountdownAndOpen(), 350);
+    }
+
+    cardNetflix.addEventListener("click", () => handleChoice("netflix"));
+    cardCineplex.addEventListener("click", () => handleChoice("cineplex"));
+
+    // Keyboard accessibility
+    cardNetflix.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") handleChoice("netflix"); });
+    cardCineplex.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") handleChoice("cineplex"); });
+
+    /***********************
+     * FALLBACK COPY
+     ***********************/
+    copyBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(copyMessage.value);
+        copyBtn.textContent = "Copied ✅";
+        setTimeout(() => (copyBtn.textContent = "Copy message"), 1400);
+      }catch{
+        // Older Safari fallback
+        copyMessage.focus();
+        copyMessage.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "Copied ✅";
+        setTimeout(() => (copyBtn.textContent = "Copy message"), 1400);
+      }
+    });
+
+    // If user comes back to the page after attempting sms, show fallback immediately
+    document.addEventListener("visibilitychange", () => {
+      if (didAttemptSms && document.visibilityState === "visible") {
+        fallbackBox.classList.add("show");
+      }
+    });
+
+    /***********************
+     * Little hearts animation
+     ***********************/
+    function burstHearts(){
+      const hearts = ["💖","💘","💞","💗","💕"];
+      for (let i=0; i<14; i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        const left = Math.random() * (app.clientWidth - 24);
+        const top = app.clientHeight - 40 + (Math.random()*30);
+        el.style.left = left + "px";
+        el.style.top = top + "px";
+        el.style.animationDuration = (3.8 + Math.random()*2.0) + "s";
+        el.style.fontSize = (14 + Math.random()*18) + "px";
+        app.appendChild(el);
+        setTimeout(() => el.remove(), 5600);
+      }
+    }
+
+    // Initialize: make sure No is positioned inside zone
+    // (in case layout shifts after load)
+    window.addEventListener("load", () => {
+      const zoneRect = btnZone.getBoundingClientRect();
+      noBtn.style.left = (zoneRect.width * 0.58) + "px";
+      noBtn.style.top  = "28px";
+    });
+  </script>
+</body>
+</html>
